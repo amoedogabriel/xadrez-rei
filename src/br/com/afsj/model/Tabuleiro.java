@@ -309,9 +309,9 @@ public class Tabuleiro {
                         System.out.println("Movimento não permitido pois tem peças no caminho.");
                     } else {
                         System.out.println("Roque Pequeno");
-                        pecaMarcada.mover(x, y);
+                        pecaMarcada.mover(6, 7);
                         iPecaMarcada.desmarcar();
-                        iPecaMarcada.mover(x, y);
+                        iPecaMarcada.mover(6, 7);
                         pecaMarcada = null;
                         iPecaMarcada = null;
 
@@ -323,22 +323,26 @@ public class Tabuleiro {
                         iPecaMarcada = null;
                     }
                 } else if (x == 1 && y == 7) {
-                    if ((bispoBranco1.getPosX() == 2 && bispoBranco1.getPosY() == 7) || (rainhaBranca.getPosX() == 3 && rainhaBranca.getPosY() == 7)) {
+                    if ((bispoBranco1.getPosX() == 2 && bispoBranco1.getPosY() == 7)) {
                         System.out.println("Movimento não permitido pois tem peças no caminho.");
                     } else {
-                        System.out.println("Roque Grande");
-                        pecaMarcada.mover(x, y);
-                        iPecaMarcada.desmarcar();
-                        iPecaMarcada.mover(x, y);
-                        pecaMarcada = null;
-                        iPecaMarcada = null;
+                        if ((rainhaBranca.getPosX() == 3 && rainhaBranca.getPosY() == 7)) {
+                            System.out.println("Movimento não permitido pois tem peças no caminho.");
+                        } else {
+                            System.out.println("Roque Grande");
+                            pecaMarcada.mover(1, 7);
+                            iPecaMarcada.desmarcar();
+                            iPecaMarcada.mover(1, 7);
+                            pecaMarcada = null;
+                            iPecaMarcada = null;
 
-                        marcarPeca(torreBranca1, iTorreBranca1);
-                        pecaMarcada.mover(2, 7);
-                        iPecaMarcada.desmarcar();
-                        iPecaMarcada.mover(2, 7);
-                        pecaMarcada = null;
-                        iPecaMarcada = null;
+                            marcarPeca(torreBranca1, iTorreBranca1);
+                            pecaMarcada.mover(2, 7);
+                            iPecaMarcada.desmarcar();
+                            iPecaMarcada.mover(2, 7);
+                            pecaMarcada = null;
+                            iPecaMarcada = null;
+                        }
                     }
                 } else {
                     pecaMarcada.mover(x, y);
