@@ -1,14 +1,12 @@
 package br.com.afsj.view;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.Icon;
-import javax.swing.JLabel;
-
 import br.com.afsj.control.Xadrez;
 import br.com.afsj.model.Peca;
 import br.com.afsj.model.Tabuleiro;
+
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IPeca {
 	
@@ -62,7 +60,7 @@ public class IPeca {
 		imagem.setBounds(posXTela, posYTela, Xadrez.tamanhoQuadrado, Xadrez.tamanhoQuadrado);
 		//contagem de movimento
 		p.setMoveCont(p.getMoveCont()+1);
-		System.out.println(p.getNome()+" movimentou "+p.getMoveCont());
+		//System.out.println(p.getNome()+" movimentou "+p.getMoveCont());
 	}
 	
 	public void setIconeBranco(Icon i) {
