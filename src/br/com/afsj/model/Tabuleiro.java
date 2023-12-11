@@ -155,17 +155,27 @@ public class Tabuleiro {
 		int oldX = pecaMarcada.getPosX();
 		int oldY = pecaMarcada.getPosY();
 
-		if (pecaMarcada.mover(x, y)) {
-			if (pecaMarcada instanceof Rei) {
-				Rei rei = (Rei) pecaMarcada;
-				List<Peca> pecasDoOponente = (corJogadorAtual == Xadrez.corBRANCA) ? listaPretas : listaBrancas;
-				if (rei.reiEmCheck(pecasDoOponente, rei)) {
-					// Desfaz o movimento
-					pecaMarcada.mover(oldX, oldY);
-					System.out.println("Movimento inválido. Rei ficaria em xeque.");
-					return;
-				}
+		Rei rei = (corJogadorAtual == Xadrez.corBRANCA) ? reiBranco1 : reiPreto1;
+		List<Peca> pecasDoOponente = (corJogadorAtual == Xadrez.corBRANCA) ? listaPretas : listaBrancas;
+
+		// Verifica se o rei está em xeque
+		if (rei.reiEmCheck(pecasDoOponente, rei)) {
+			// Se a peça que está sendo movida não for o rei, cancela o movimento
+			if (!(pecaMarcada instanceof Rei)) {
+				System.out.println("Movimento inválido. Rei está em xeque.");
+				return;
 			}
+		}
+
+		if (pecaMarcada.mover(x, y)) {
+			// Verifica se o movimento coloca o rei em xeque
+			if (rei.reiEmCheck(pecasDoOponente, rei)) {
+				// Desfaz o movimento
+				pecaMarcada.mover(oldX, oldY);
+				System.out.println("Movimento inválido. Rei ficaria em xeque.");
+				return;
+			}
+
 			iPecaMarcada.desmarcar();
 			iPecaMarcada.mover(x, y);
 			pecaMarcada = null;
@@ -176,5 +186,37 @@ public class Tabuleiro {
 				corJogadorAtual = Xadrez.corBRANCA;
 		}
 	}
+
+	// private static boolean roquePermitido(List<Peca> pecas, Rei rei, Torre torre)
+	// {
+	// // Verifica se o rei já se moveu
+	// int posY = (rei.getCor() == Xadrez.corBRANCA) ? 0 : 7;
+	// if (rei.getPosX() != 4 || rei.getPosY() != posY) {
+	// return false;
+	// }
+
+	// // Verifica se a torre já se moveu
+	// for (Peca peca : pecas) {
+	// if (peca.getCor() == rei.getCor() && peca instanceof Torre
+	// && (peca.getPosX() != 0 || peca.getPosY() != posY)) {
+	// return false;
+	// }
+	// }
+
+	// // Verifica se há peças entre o rei e a torre
+	// for (Peca peca : pecas) {
+	// if (peca.getCor() == rei.getCor() && peca instanceof Torre
+	// && peca.getPosX() != 0) {
+	// for (int i = 1; i < peca.getPosX(); i++) {
+	// for (Peca peca2 : pecas) {
+	// if (peca2.getPosX() == i && peca2.getPosY() == posY) {
+	// return false;
+	// }
+	// }
+	// }
+	// }
+	// }
+	// return true;
+	// }
 
 }

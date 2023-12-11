@@ -6,6 +6,7 @@ import java.util.List;
  * Class representing a king chess piece.
  */
 public class Rei extends Peca {
+
     @Override
     public boolean movimentoOK(int x, int y) {
         if (posX == -1 && posY == -1) {
