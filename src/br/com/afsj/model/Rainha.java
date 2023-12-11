@@ -20,5 +20,6 @@ public class Rainha extends Peca{
             }
         }
         return false;
+
     }
 }

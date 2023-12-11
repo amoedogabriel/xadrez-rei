@@ -7,7 +7,7 @@ public abstract class Peca {
 	protected int posX = -1;
 	protected int posY = -1;
 	
-	// Métodos
+	// Mï¿½todos
 	public int getCor() {
 		return cor;
 	}
@@ -41,4 +41,7 @@ public abstract class Peca {
 	public boolean capturar(int x, int y) {
 		return mover(x,y);
 	}
+    public int getMoveCont() {
+        return 0;
+    }
 }
