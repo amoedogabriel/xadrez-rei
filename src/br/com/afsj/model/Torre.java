@@ -2,21 +2,17 @@ package br.com.afsj.model;
 
 public class Torre extends Peca {
 
+    public Torre() {
+    }
+
     @Override
     public boolean movimentoOK(int x, int y) {
         if (posX == -1 && posY == -1) {
-            // A torre ainda n„o foi colocada no tabuleiro, pode se mover para qualquer posiÁ„o
+            // A torre ainda n√£o foi colocada no tabuleiro, pode se mover para qualquer posi√ß√£o
             return true;
         }
 
-        // Verificar se o movimento È horizontal ou vertical
-        if (x == posX || y == posY) {
-            // Movimento v·lido, pois È horizontal ou vertical
-            return true;
-        } else {
-            // Movimento inv·lido
-            System.out.println("Movimento inv·lido para a Torre.");
-            return false;
-        }
+        // Verificar se o movimento √© horizontal ou vertical
+        return x == posX || y == posY;
     }
 }

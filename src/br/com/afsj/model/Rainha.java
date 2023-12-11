@@ -2,24 +2,29 @@ package br.com.afsj.model;
 
 import br.com.afsj.control.Xadrez;
 
-public class Rainha extends Peca{
+public class Rainha extends Peca {
     @Override
     public boolean movimentoOK(int x, int y) {
         if (posX == -1 && posY == -1) {
+            // Peça ainda não foi movida, então qualquer movimento é válido
             return true;
         }
-        if (cor == Xadrez.corBRANCA) {
-            if ((x == posX) && (y == posY - 1)) {
-                return true;
-            }
+
+        // Movimento vertical
+        if (x == posX && y != posY) {
+            return true;
         }
 
-        if (cor == Xadrez.corPRETA) {
-            if ((x == posX) && (y == posY + 1)) {
-                return true;
-            }
+        // Movimento horizontal
+        if (y == posY && x != posX) {
+            return true;
         }
+
+        // Movimento diagonal
+        if (Math.abs(x - posX) == Math.abs(y - posY)) {
+            return true;
+        }
+
         return false;
-
     }
 }

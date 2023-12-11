@@ -4,7 +4,10 @@ import br.com.afsj.control.Xadrez;
 
 public class Peao extends Peca {
 	
-	@Override
+	public Peao() {
+    }
+
+    @Override
 	public boolean movimentoOK(int x, int y) {
 		if (posX == -1 && posY == -1) {
 			return true;

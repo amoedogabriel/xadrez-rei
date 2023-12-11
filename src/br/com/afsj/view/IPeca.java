@@ -18,7 +18,7 @@ public class IPeca {
 	protected JLabel imagem;
 	protected Peca p;
 	
-	// Métodos
+	// Mï¿½todos
 
 	public IPeca(Peca np) {
 		this.p = np;
@@ -74,4 +74,6 @@ public class IPeca {
 	public JLabel getImagem() {
 		return this.imagem;
 	}
+    public void setCor(int corbranca) {
+    }
 }
