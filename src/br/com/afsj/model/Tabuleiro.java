@@ -1,42 +1,51 @@
 package br.com.afsj.model;
 
+import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import br.com.afsj.control.Xadrez;
 import br.com.afsj.view.ICavalo;
 import br.com.afsj.view.IPeao;
 import br.com.afsj.view.IPeca;
+import br.com.afsj.view.IRei;
 import br.com.afsj.view.ITabuleiro;
 
 public class Tabuleiro {
 
 	protected static JFrame TELA;
-	
+
 	public static ArrayPecas listaBrancas = new ArrayPecas();
 	public static ArrayPecas listaPretas = new ArrayPecas();
 
 	protected static int corJogadorAtual = Xadrez.corBRANCA;
 	protected static Peca pecaMarcada = null;
 	protected static IPeca iPecaMarcada = null;
-	
+
 	protected static ITabuleiro iTabuleiro = new ITabuleiro();
-	
+
 	protected static Peao peaoBranco1 = new Peao();
 	protected static IPeao iPeaoBranco1 = new IPeao(peaoBranco1);
-	
+
 	protected static Peao peaoBranco2 = new Peao();
 	protected static IPeao iPeaoBranco2 = new IPeao(peaoBranco2);
 
 	protected static Peao peaoPreto1 = new Peao();
 	protected static IPeao iPeaoPreto1 = new IPeao(peaoPreto1);
-	
+
 	protected static Cavalo cavaloPreto1 = new Cavalo();
 	protected static ICavalo iCavaloPreto1 = new ICavalo(cavaloPreto1);
 
 	protected static Cavalo cavaloBranco1 = new Cavalo();
 	protected static ICavalo iCavaloBranco1 = new ICavalo(cavaloBranco1);
-	
-	//protected static Peca peca = new Peca();
+
+	protected static Rei reiPreto1 = new Rei();
+	protected static IRei iReiPreto1 = new IRei(reiPreto1);
+
+	protected static Rei reiBranco1 = new Rei();
+	protected static IRei iReiBranco1 = new IRei(reiBranco1);
+
+	// protected static Peca peca = new Peca();
 
 	public void iniciar(Tradutor t) {
 
@@ -66,7 +75,14 @@ public class Tabuleiro {
 		iCavaloBranco1.mover(1, 7);
 		TELA.getContentPane().add(iCavaloBranco1.getImagem());
 		listaBrancas.add(cavaloBranco1);
-		
+
+		reiBranco1.setCor(Xadrez.corBRANCA);
+		reiBranco1.mover(4, 7);
+		iReiBranco1.setIconeBranco(new ImageIcon("imagens/Rei-Brancas-Branco.png"));
+		iReiBranco1.setIconeMarrom(new ImageIcon("imagens/Rei-Brancas-Marrom.png"));
+		iReiBranco1.mover(4, 7);
+		TELA.getContentPane().add(iReiBranco1.getImagem());
+
 		// Pretas
 		peaoPreto1.setCor(Xadrez.corPRETA);
 		peaoPreto1.mover(0, 1);
@@ -83,7 +99,15 @@ public class Tabuleiro {
 		iCavaloPreto1.mover(1, 0);
 		TELA.getContentPane().add(iCavaloPreto1.getImagem());
 		listaPretas.add(cavaloPreto1);
-		
+
+		reiPreto1.setCor(Xadrez.corPRETA);
+		reiPreto1.mover(4, 0);
+		iReiPreto1.setIconeBranco(new ImageIcon("imagens/Rei-Pretas-Branco.png"));
+		iReiPreto1.setIconeMarrom(new ImageIcon("imagens/Rei-Pretas-Marrom.png"));
+		iReiPreto1.mover(4, 0);
+		TELA.getContentPane().add(iReiPreto1.getImagem());
+		listaPretas.add(reiPreto1);
+
 		TELA.getContentPane().add(iTabuleiro.getImagem());
 		TELA.setSize(400, 400);
 		TELA.setVisible(true);
@@ -91,14 +115,14 @@ public class Tabuleiro {
 	}
 
 	public static void avaliarEventoPeca(Peca p, IPeca ip) {
-		if (p.getCor() == corJogadorAtual) 
+		if (p.getCor() == corJogadorAtual)
 			marcarPeca(p, ip);
 		else if (pecaMarcada != null)
-			capturarPeca(p, ip);		
+			capturarPeca(p, ip);
 	}
-	
+
 	public static void avaliarEventoTabuleiro(int x, int y) {
-		if ( (pecaMarcada != null) && (x >= 0) && (x <= 7) && (y >=0) && (y <= 7) ) {
+		if ((pecaMarcada != null) && (x >= 0) && (x <= 7) && (y >= 0) && (y <= 7)) {
 			moverPecaMarcada(x, y);
 		}
 	}
@@ -123,12 +147,25 @@ public class Tabuleiro {
 			if (corJogadorAtual == Xadrez.corBRANCA)
 				corJogadorAtual = Xadrez.corPRETA;
 			else
-				corJogadorAtual = Xadrez.corBRANCA;			
+				corJogadorAtual = Xadrez.corBRANCA;
 		}
 	}
-	
+
 	public static void moverPecaMarcada(int x, int y) {
+		int oldX = pecaMarcada.getPosX();
+		int oldY = pecaMarcada.getPosY();
+
 		if (pecaMarcada.mover(x, y)) {
+			if (pecaMarcada instanceof Rei) {
+				Rei rei = (Rei) pecaMarcada;
+				List<Peca> pecasDoOponente = (corJogadorAtual == Xadrez.corBRANCA) ? listaPretas : listaBrancas;
+				if (rei.reiEmCheck(pecasDoOponente, rei)) {
+					// Desfaz o movimento
+					pecaMarcada.mover(oldX, oldY);
+					System.out.println("Movimento inválido. Rei ficaria em xeque.");
+					return;
+				}
+			}
 			iPecaMarcada.desmarcar();
 			iPecaMarcada.mover(x, y);
 			pecaMarcada = null;
@@ -139,4 +176,5 @@ public class Tabuleiro {
 				corJogadorAtual = Xadrez.corBRANCA;
 		}
 	}
+
 }
